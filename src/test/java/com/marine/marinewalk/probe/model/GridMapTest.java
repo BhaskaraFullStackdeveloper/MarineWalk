@@ -12,11 +12,8 @@ class GridMapTest {
         GridMap map = new GridMap();
         Boolean[][] coordinates = new Boolean[3][3];
         Boolean[][] defaultMap = map.createMap(coordinates);
-        for (int i = 0; i < coordinates.length; i++) {
-            for (int j = 0; j < coordinates[0].length; j++) {
-                Assertions.assertFalse(defaultMap[i][j]);
-            }
-        }
+        Assertions.assertEquals(3,defaultMap.length,"Should have same number of rows");
+        Assertions.assertEquals(3,defaultMap[0].length,"Should have same number of columns");
     }
 
     @Test
@@ -27,10 +24,7 @@ class GridMapTest {
         //Set 3 X 3 matrix with center (1,1) has obstacle
         for (int i = 0; i < coordinates.length; i++) {
             for (int j = 0; j < coordinates[0].length; j++) {
-                if (i == 1 && j == 1) {
-                    coordinates[i][j] = true;
-                }
-                coordinates[i][j] = false;
+                coordinates[i][j] = i == 1 && j == 1;
             }
         }
         //Create Map
@@ -43,10 +37,10 @@ class GridMapTest {
         //test if we are getting same map that we have created from create map output
         for (int i = 0; i < coordinates.length; i++) {
             for (int j = 0; j < coordinates[0].length; j++) {
-                if (i == 1 && j == 1) {
+                if(i == 1 && j == 1){
                     Assertions.assertTrue(defaultMap[i][j]);
-                }
-                Assertions.assertFalse(defaultMap[i][j]);
+                }else
+                    Assertions.assertFalse(defaultMap[i][j]);
             }
         }
 

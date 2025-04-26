@@ -10,12 +10,12 @@ public class GridMap implements Serializable {
     private GridCell[][] gridMap;
 
     public Boolean[][] createMap(Boolean[][] map){
-        Boolean[][] coordinates= new Boolean[3][3];
-        for(int i=0;i<map.length;i++){
+
+        for (int i=0;i<map.length;i++){
             for (int j=0;j<map[0].length;j++){
-                coordinates[i][j]=false;
+                System.out.println(map[i][j]);
             }
         }
-        return coordinates;
+        return map;
     }
 }
