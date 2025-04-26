@@ -64,14 +64,14 @@ public class ProbeControllerModule {
 
 		GridCell currentPosition = probe.getPosition();
 		GridCell facing = probe.getFacingTowards();
-		int newX = currentPosition.getX() + facing.getX();
-		int newY = currentPosition.getY() + facing.getY();
-		if (isValidMove(newX, newY)) {
-			probe.move(new GridCell(newX, newY, false));
-			return true;
-		}
+	    int newX = currentPosition.getX() + (facing.getX() - currentPosition.getX());
+	    int newY = currentPosition.getY() + (facing.getY() - currentPosition.getY());
 
-		return false;
+	    if (isValidMove(newX, newY)) {
+	        probe.move(new GridCell(newX, newY, false));
+	        return true;
+	    }
+	    return false;
 	}
 	// move backword
 	// move left
