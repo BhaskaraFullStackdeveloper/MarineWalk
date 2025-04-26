@@ -24,6 +24,15 @@ public class GridCell {
         this.y = y;
     }
 
+    public GridCell() {
+    }
+
+    public GridCell(int x, int y, Boolean hasObstacle) {
+        this.x = x;
+        this.y = y;
+        this.hasObstacle = hasObstacle;
+    }
+
     public Boolean getHasObstacle() {
         return hasObstacle;
     }
@@ -43,5 +52,14 @@ public class GridCell {
     @Override
     public int hashCode() {
         return Objects.hash(x, y, hasObstacle);
+    }
+
+    @Override
+    public String toString() {
+        return "GridCell{" +
+                "x=" + x +
+                ", y=" + y +
+                ", hasObstacle=" + hasObstacle +
+                '}';
     }
 }
