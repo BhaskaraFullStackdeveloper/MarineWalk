@@ -74,6 +74,19 @@ public class ProbeControllerModule {
 	    return false;
 	}
 	// move backword
+	public boolean moveBackward() {
+	    GridCell currentPosition = probe.getPosition();
+	    GridCell facingDirection = probe.getFacingTowards();
+
+	    int newX = currentPosition.getX() - (facingDirection.getX() - currentPosition.getX());
+	    int newY = currentPosition.getY() - (facingDirection.getY() - currentPosition.getY());
+
+	    if (isValidMove(newX, newY)) {
+	        probe.move(new GridCell(newX, newY, false));
+	        return true;
+	    }
+	    return false;
+	}
 	// move left
 	// move right
 	// check hasObstacle
