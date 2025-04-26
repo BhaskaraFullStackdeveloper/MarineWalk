@@ -25,4 +25,18 @@ class OceanFloorTest {
         gridMap.createMap(oneDimensionalMap);
         Assertions.assertFalse(floorToExplore.isOutOfRange(gridMap));
     }
+
+    @Test
+    public void createFloorToExplore_shouldReturnTheValidGridMap(){
+        Assertions.assertInstanceOf(GridMap.class,null);
+        Assertions.assertEquals(2,0);
+        Assertions.assertEquals(2,0);
+    }
+
+    @Test
+    public void createFloorToExplore_withInvalidMap_ShouldReturnFalse(){
+
+        Assertions.assertTrue(null);
+
+    }
 }

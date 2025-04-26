@@ -1,7 +1,5 @@
 package com.marine.marinewalk.probe.model;
 
-import com.marine.marinewalk.probe.exception.InvalidGridMapDataException;
-
 import java.util.Objects;
 
 public class OceanFloor {
