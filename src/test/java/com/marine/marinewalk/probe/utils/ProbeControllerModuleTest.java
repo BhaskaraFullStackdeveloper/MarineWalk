@@ -31,14 +31,14 @@ class ProbeControllerModuleTest {
     public void placeProbeOnGrid_WithInvalidRange_shouldBeInvalid(){
 
         GridMap gridMap=new GridMap();
-        Probe probe=new Probe(new GridCell(2,1,false),new GridCell(1,3,false));
+        Probe probe=new Probe(new GridCell(1,1,false),new GridCell(0,1,false));
 
-        Boolean[][] map={{false,false},{false,false},{false,false}};
+        Boolean[][] map={{false,true,false}};
         GridCell[][] floorToExplore = gridMap.createMap(map);
         OceanFloor oceanFloor=new OceanFloor(new GridMap(floorToExplore));
         ProbeControllerModule controllerModule=new ProbeControllerModule(oceanFloor);
         boolean placedProbeOnGrid = controllerModule.placeProbeOnGrid(probe);
-
+        
         Assertions.assertFalse(placedProbeOnGrid);
     }
     //check probe facing obstacle?
@@ -79,25 +79,59 @@ class ProbeControllerModuleTest {
     //move probe forward
     @Test
     public void moveForward_WithValidInput_ShouldMoveOneGridForward(){
+    	
+        GridMap gridMap=new GridMap();
+        Probe probe=new Probe(new GridCell(1,1,false),new GridCell(0,1,false));
 
-        Assertions.assertEquals(0,1);
-        Assertions.assertEquals(1,0);
+        Boolean[][] map={{false,false,false},{false,false,false},{false,false,false}};
+        GridCell[][] floorToExplore = gridMap.createMap(map);
+        OceanFloor oceanFloor=new OceanFloor(new GridMap(floorToExplore));
+        ProbeControllerModule controllerModule=new ProbeControllerModule(oceanFloor);
+        boolean placedProbeOnGrid = controllerModule.placeProbeOnGrid(probe);
+        boolean movedForward = controllerModule.moveForward();
+        
+        Assertions.assertTrue(placedProbeOnGrid);
+        Assertions.assertTrue(movedForward);
+
+        Assertions.assertEquals(0,controllerModule.getProbe().getPosition().getX(),"Moved to x position");
+        Assertions.assertEquals(1,controllerModule.getProbe().getPosition().getY(),"Moved to y position");
     }
     //move probe forward when there is obstacle
     @Test
     public void moveForward_WithObstacle_ShouldSayHasObstacle(){
 
-        Assertions.assertTrue(false);
-        Assertions.assertEquals(1,1);
-        Assertions.assertEquals(1,1);
+        GridMap gridMap=new GridMap();
+        Probe probe=new Probe(new GridCell(1,1,false),new GridCell(0,1,false));
+
+        Boolean[][] map={{false,true,false},{false,false,false},{false,false,false}};
+        GridCell[][] floorToExplore = gridMap.createMap(map);
+        OceanFloor oceanFloor=new OceanFloor(new GridMap(floorToExplore));
+        ProbeControllerModule controllerModule=new ProbeControllerModule(oceanFloor);
+        boolean placedProbeOnGrid = controllerModule.placeProbeOnGrid(probe);
+        boolean movedForward = controllerModule.moveForward();
+        
+        Assertions.assertTrue(placedProbeOnGrid);
+        Assertions.assertFalse(movedForward);
+
+        Assertions.assertEquals(1,controllerModule.getProbe().getPosition().getX(),"stay in same position");
+        Assertions.assertEquals(1,controllerModule.getProbe().getPosition().getY(),"stay in same position");
     }
     //move probe forward out of bounds
     @Test
     public void moveForward_WithInValidInput_ShouldSayOutOfBounds(){
+    	
+        GridMap gridMap=new GridMap();
+        Probe probe=new Probe(new GridCell(2,2,false),new GridCell(-1,-1,false));
 
-        Assertions.assertTrue(false);
-        Assertions.assertEquals(1,1);
-        Assertions.assertEquals(1,1);
+        Boolean[][] map={{false,false,false},{false,false,false},{false,false,false}};
+        GridCell[][] floorToExplore = gridMap.createMap(map);
+        OceanFloor oceanFloor=new OceanFloor(new GridMap(floorToExplore));
+        ProbeControllerModule controllerModule=new ProbeControllerModule(oceanFloor);
+        boolean placedProbeOnGrid = controllerModule.placeProbeOnGrid(probe);
+        Assertions.assertThrows(NullPointerException.class, ()->controllerModule.moveForward());
+        
+        Assertions.assertFalse(placedProbeOnGrid);
+
     }
 
     //move probe backward

@@ -39,24 +39,24 @@ public class ProbeControllerModule {
 	public boolean placeProbeOnGrid(Probe probe) {
 		GridCell startingPosition = probe.getPosition();
 		GridCell faceDirection = probe.getFacingTowards();
-		if (this.oceanFloor.getFloorToExplore().getGridCells()[startingPosition.getX()][startingPosition.getY()]
-				.getHasObstacle()) {
-			return false;
-		}
-		if (isGridCellInValidRange(startingPosition) && isGridCellInValidRange(faceDirection)) {
-			this.probe = probe;
-		} else {
-			return false;
-		}
+	    if (!isGridCellInValidRange(startingPosition) || !isGridCellInValidRange(faceDirection)) {
+	        return false;
+	    }
 
-		return true;
+	    if (this.oceanFloor.getFloorToExplore().getGridCells()[startingPosition.getX()][startingPosition.getY()].getHasObstacle()) {
+	        return false;
+	    }
+
+	    this.probe = probe;
+	    return true;
 	}
 
 	private boolean isGridCellInValidRange(GridCell startingPosition) {
-		return startingPosition.getY() >= 0
-				&& startingPosition.getX() < this.oceanFloor.getFloorToExplore().getGridCells().length
-				&& startingPosition.getY() >= 0
-				&& startingPosition.getY() < this.oceanFloor.getFloorToExplore().getGridCells()[0].length;
+	    int rows = this.oceanFloor.getFloorToExplore().getGridCells().length;
+	    int cols = this.oceanFloor.getFloorToExplore().getGridCells()[0].length;
+
+	    return startingPosition.getX() >= 0 && startingPosition.getX() < rows &&
+	    		startingPosition.getY() >= 0 && startingPosition.getY() < cols;
 	}
 
 	// move forward
