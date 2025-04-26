@@ -88,7 +88,34 @@ public class ProbeControllerModule {
 	    return false;
 	}
 	// move left
+	public boolean moveLeft() {
+	    GridCell currentFacing = probe.getFacingTowards();
+	    GridCell currentPosition = probe.getPosition();
+
+	    int newX = currentPosition.getX() - (currentFacing.getY() - currentPosition.getY());
+	    int newY = currentPosition.getY() + (currentFacing.getX() - currentPosition.getX());
+
+	    if (isValidMove(newX, newY)) {
+	        probe.move(new GridCell(newX, newY, false));
+	        return true;
+	    }
+	    return false;
+	}
 	// move right
+	public boolean moveRight() {
+	    GridCell currentFacing = probe.getFacingTowards();
+	    GridCell currentPosition = probe.getPosition();
+
+	    int newX = currentPosition.getX() + (currentFacing.getY() - currentPosition.getY());
+	    int newY = currentPosition.getY() - (currentFacing.getX() - currentPosition.getX());
+
+	    if (isValidMove(newX, newY)) {
+	        probe.move(new GridCell(newX, newY, false));
+	        return true;
+	    }
+	    return false;
+	}
+
 	// check hasObstacle
 	// get collection of commands -read - move the probe accordingly
 	// printSummary

@@ -136,7 +136,7 @@ class ProbeControllerModuleTest {
 
     //move probe backward
     @Test
-    public void moveBackward_WithValidInput_ShouldMoveOneGridForward(){
+    public void moveBackward_WithValidInput_ShouldMoveOneGridBackward(){
     	GridMap gridMap=new GridMap();
         Probe probe=new Probe(new GridCell(1,1,false),new GridCell(0,1,false));
 
@@ -185,58 +185,117 @@ class ProbeControllerModuleTest {
         ProbeControllerModule controllerModule=new ProbeControllerModule(oceanFloor);
         Probe probe = new Probe(new GridCell(2, 2, false), new GridCell(3, 2, false));
 
-        assertFalse(controllerModule.placeProbeOnGrid(probe), "Probe should be successfully placed.");
+        assertFalse(controllerModule.placeProbeOnGrid(probe), "Probe should not be placed.");
         assertThrows(NullPointerException.class, ()->controllerModule.moveBackward(), "Probe should not move backward beyond grid boundaries.");
     }
 
     //move probe left
     @Test
-    public void moveLeft_WithValidInput_ShouldMoveOneGridForward(){
+    public void moveLeft_WithValidInput_ShouldMoveOneGridLeft(){
 
-        Assertions.assertTrue(false);
-        Assertions.assertEquals(1,1);
-        Assertions.assertEquals(1,1);
+    	GridMap gridMap=new GridMap();
+        Probe probe=new Probe(new GridCell(1,1,false),new GridCell(0,1,false));
+
+        Boolean[][] map={{false,false,false},{false,false,false},{false,false,false}};
+        GridCell[][] floorToExplore = gridMap.createMap(map);
+        OceanFloor oceanFloor=new OceanFloor(new GridMap(floorToExplore));
+        ProbeControllerModule controllerModule=new ProbeControllerModule(oceanFloor);
+        boolean placedProbeOnGrid = controllerModule.placeProbeOnGrid(probe);
+        boolean movedLeft = controllerModule.moveLeft();
+        
+        Assertions.assertTrue(placedProbeOnGrid);
+        Assertions.assertTrue(movedLeft);
+        
+        Assertions.assertEquals(1,controllerModule.getProbe().getPosition().getX(),"Moved left to x position");
+        Assertions.assertEquals(0,controllerModule.getProbe().getPosition().getY(),"Moved left to y position");
+
     }
     //move probe left when there is obstacle
     @Test
     public void moveLeft_WithObstacle_ShouldSayHasObstacle(){
+    	 GridMap gridMap=new GridMap();
+         Probe probe=new Probe(new GridCell(1,1,false),new GridCell(0,1,false));
 
-        Assertions.assertTrue(false);
-        Assertions.assertEquals(1,1);
-        Assertions.assertEquals(1,1);
+         Boolean[][] map={{false,false,false},{true,false,false},{false,true,false}};
+         GridCell[][] floorToExplore = gridMap.createMap(map);
+         OceanFloor oceanFloor=new OceanFloor(new GridMap(floorToExplore));
+         ProbeControllerModule controllerModule=new ProbeControllerModule(oceanFloor);
+         boolean placedProbeOnGrid = controllerModule.placeProbeOnGrid(probe);
+         boolean movedLeft = controllerModule.moveLeft();
+         
+         Assertions.assertTrue(placedProbeOnGrid);
+         Assertions.assertFalse(movedLeft);
+
+         Assertions.assertEquals(1,controllerModule.getProbe().getPosition().getX(),"stay in same position");
+         Assertions.assertEquals(1,controllerModule.getProbe().getPosition().getY(),"stay in same position");
     }
     //move probe left out of bounds
     @Test
     public void moveLeft_WithInValidInput_ShouldSayOutOfBounds(){
+    	GridMap gridMap=new GridMap();
+    	
+    	Boolean[][] map = {{false, false, false}, {false, false, false}, {false, false, false}};
+        GridCell[][] floorToExplore = gridMap.createMap(map);
+        OceanFloor oceanFloor=new OceanFloor(new GridMap(floorToExplore));
+        ProbeControllerModule controllerModule=new ProbeControllerModule(oceanFloor);
+        Probe probe = new Probe(new GridCell(1, 0, false), new GridCell(3, 2, false));
 
-        Assertions.assertTrue(false);
-        Assertions.assertEquals(1,1);
-        Assertions.assertEquals(1,1);
+        assertFalse(controllerModule.placeProbeOnGrid(probe), "Probe should not be placed.");
+        assertThrows(NullPointerException.class, ()->controllerModule.moveBackward(), "Probe should not move backward beyond grid boundaries.");
     }
 
     //move probe right
     @Test
-    public void moveRight_WithValidInput_ShouldMoveOneGridForward(){
+    public void moveRight_WithValidInput_ShouldMoveOneGridRight(){
+    	GridMap gridMap=new GridMap();
+        Probe probe=new Probe(new GridCell(1,1,false),new GridCell(0,1,false));
 
-        Assertions.assertTrue(false);
-        Assertions.assertEquals(1,1);
-        Assertions.assertEquals(1,1);
+        Boolean[][] map={{false,false,false},{false,false,false},{false,false,false}};
+        GridCell[][] floorToExplore = gridMap.createMap(map);
+        OceanFloor oceanFloor=new OceanFloor(new GridMap(floorToExplore));
+        ProbeControllerModule controllerModule=new ProbeControllerModule(oceanFloor);
+        boolean placedProbeOnGrid = controllerModule.placeProbeOnGrid(probe);
+        boolean movedRight = controllerModule.moveRight();
+        
+        Assertions.assertTrue(placedProbeOnGrid);
+        Assertions.assertTrue(movedRight);
+        
+        Assertions.assertEquals(1,controllerModule.getProbe().getPosition().getX(),"Moved right to x position");
+        Assertions.assertEquals(2,controllerModule.getProbe().getPosition().getY(),"Moved right to y position");
     }
+    
     //move probe right when there is obstacle
     @Test
     public void moveRight_WithObstacle_ShouldSayHasObstacle(){
+    	 GridMap gridMap=new GridMap();
+         Probe probe=new Probe(new GridCell(1,1,false),new GridCell(0,1,false));
 
-        Assertions.assertTrue(false);
-        Assertions.assertEquals(1,1);
-        Assertions.assertEquals(1,1);
+         Boolean[][] map={{false,false,false},{false,false,true},{false,true,false}};
+         GridCell[][] floorToExplore = gridMap.createMap(map);
+         OceanFloor oceanFloor=new OceanFloor(new GridMap(floorToExplore));
+         ProbeControllerModule controllerModule=new ProbeControllerModule(oceanFloor);
+         boolean placedProbeOnGrid = controllerModule.placeProbeOnGrid(probe);
+         boolean movedRight = controllerModule.moveRight();
+         
+         Assertions.assertTrue(placedProbeOnGrid);
+         Assertions.assertFalse(movedRight);
+
+         Assertions.assertEquals(1,controllerModule.getProbe().getPosition().getX(),"stay in same position");
+         Assertions.assertEquals(1,controllerModule.getProbe().getPosition().getY(),"stay in same position");
     }
     //move probe right out of bounds
     @Test
     public void moveRight_WithInValidInput_ShouldSayOutOfBounds(){
+    	GridMap gridMap=new GridMap();
+    	
+    	Boolean[][] map = {{false, false, false}, {false, false, false}, {false, false, false}};
+        GridCell[][] floorToExplore = gridMap.createMap(map);
+        OceanFloor oceanFloor=new OceanFloor(new GridMap(floorToExplore));
+        ProbeControllerModule controllerModule=new ProbeControllerModule(oceanFloor);
+        Probe probe = new Probe(new GridCell(2, 2, false), new GridCell(3, 2, false));
 
-        Assertions.assertTrue(false);
-        Assertions.assertEquals(1,1);
-        Assertions.assertEquals(1,1);
+        assertFalse(controllerModule.placeProbeOnGrid(probe), "Probe should not be placed.");
+        assertThrows(NullPointerException.class, ()->controllerModule.moveBackward(), "Probe should not move backward beyond grid boundaries.");
     }
 
     //get moving commands
