@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 class ProbeControllerModuleTest {
 
     //place a probe on grid
@@ -299,6 +301,62 @@ class ProbeControllerModuleTest {
     }
 
     //get moving commands
+    @Test
+    public void testExecuteCommands_SimpleMovement() {
+    	GridMap gridMap=new GridMap();
+    	
+    	Boolean[][] map = {{false, false, false}, {false, false, false}, {false, false, false}};
+        GridCell[][] floorToExplore = gridMap.createMap(map);
+        OceanFloor oceanFloor=new OceanFloor(new GridMap(floorToExplore));
+        ProbeControllerModule controller = new ProbeControllerModule(oceanFloor);
+        Probe probe = new Probe(new GridCell(1, 1, false), new GridCell(2, 1, false));
+
+        assertTrue(controller.placeProbeOnGrid(probe), "Probe should be placed successfully.");
+        
+        List<Character> commands = List.of('F', 'R', 'F');
+        //TODO:controller.executeCommands(commands)
+        assertTrue(false, "Probe should execute commands.");
+        
+        assertEquals(new GridCell(2, 2, false), controller.getProbe().getPosition(), "Probe should end at correct position.");
+    }
+
+    @Test
+    public void testExecuteCommands_WithObstacle() {
+    	GridMap gridMap=new GridMap();
+    	
+    	Boolean[][] map = {{false, false, false}, {false, false, false}, {false, false, false}};
+        GridCell[][] floorToExplore = gridMap.createMap(map);
+        OceanFloor oceanFloor=new OceanFloor(new GridMap(floorToExplore));
+        ProbeControllerModule controller = new ProbeControllerModule(oceanFloor);
+        Probe probe = new Probe(new GridCell(1, 0, false), new GridCell(1, 1, false));
+
+        assertTrue(controller.placeProbeOnGrid(probe), "Probe should be placed successfully.");
+        
+        List<Character> commands = List.of('F', 'F');  // Second move forward should be blocked
+        //TODO:controller.executeCommands(commands)
+        assertFalse(true, "Probe should stop before the obstacle.");
+        
+        assertEquals(new GridCell(1, 0, false), controller.getProbe().getPosition(), "Probe should remain in original position.");
+    }
+
+    @Test
+    public void testExecuteCommands_ValidRotation() {
+    	GridMap gridMap=new GridMap();
+    	
+    	Boolean[][] map = {{false, false, false}, {false, false, false}, {false, false, false}};
+        GridCell[][] floorToExplore = gridMap.createMap(map);
+        OceanFloor oceanFloor=new OceanFloor(new GridMap(floorToExplore));
+        ProbeControllerModule controller = new ProbeControllerModule(oceanFloor);
+        Probe probe = new Probe(new GridCell(1, 1, false), new GridCell(1, 2, false));
+
+        assertTrue(controller.placeProbeOnGrid(probe), "Probe should be placed successfully.");
+        
+        List<Character> commands = List.of('L', 'L', 'F');  // Turning left twice should face opposite direction
+        //TODO: controller.executeCommands(commands)
+        assertTrue(false, "Probe should execute rotation correctly.");
+        
+        assertEquals(new GridCell(1, 0, false), controller.getProbe().getPosition(), "Probe should move backward after rotating.");
+    }
     //collect cells visited
 
 

@@ -39,7 +39,7 @@ public class OceanFloor {
                 '}';
     }
 
-    //TODO:throw new InvalidGridMapDataException("Obstacles can be set with true or false, invalid data type exception!");
+
     public boolean isValidFloorMap(GridMap map){
         for (int i = 0; i < map.getGridCells().length; i++) {
             for (int j = 0; j < map.getGridCells()[i].length; j++) {
