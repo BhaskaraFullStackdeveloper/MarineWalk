@@ -3,8 +3,6 @@ package com.marine.marinewalk.probe.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class OceanFloorTest {
 
     @Test
@@ -23,20 +21,35 @@ class OceanFloorTest {
         GridMap gridMap=new GridMap();
         Boolean[][] oneDimensionalMap={{false, false}};
         gridMap.createMap(oneDimensionalMap);
-        Assertions.assertFalse(floorToExplore.isOutOfRange(gridMap));
+        Assertions.assertFalse(floorToExplore.isValidRange(gridMap));
     }
 
     @Test
     public void createFloorToExplore_shouldReturnTheValidGridMap(){
-        Assertions.assertInstanceOf(GridMap.class,null);
-        Assertions.assertEquals(2,0);
-        Assertions.assertEquals(2,0);
+        OceanFloor floorToExplore = new OceanFloor();
+
+        GridMap gridMap=new GridMap();
+        Boolean[][] validMap={{false, false},{true,false}};
+        GridCell[][] map = gridMap.createMap(validMap);
+        boolean floorToExploreCreated = floorToExplore.createFloorToExplore(new GridMap(map));
+
+
+        Assertions.assertTrue(floorToExploreCreated);
+        Assertions.assertInstanceOf(GridMap.class,floorToExplore.getFloorToExplore());
+        Assertions.assertEquals(2,floorToExplore.getFloorToExplore().getGridCells().length);
+        Assertions.assertEquals(2,floorToExplore.getFloorToExplore().getGridCells()[0].length);
     }
 
     @Test
     public void createFloorToExplore_withInvalidMap_ShouldReturnFalse(){
+        OceanFloor floorToExplore = new OceanFloor();
 
-        Assertions.assertTrue(null);
+        GridMap gridMap=new GridMap();
+        Boolean[][] inValidMap={{false},{true},{false}};
+        GridCell[][] map = gridMap.createMap(inValidMap);
+        boolean floorToExploreCreated = floorToExplore.createFloorToExplore(new GridMap(map));
+
+        Assertions.assertFalse(floorToExploreCreated,"Not a valid range floor!");
 
     }
 }

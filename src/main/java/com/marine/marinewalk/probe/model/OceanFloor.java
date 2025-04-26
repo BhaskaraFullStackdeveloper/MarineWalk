@@ -54,16 +54,26 @@ public class OceanFloor {
     /*
         Defaulting to 2 X 2 matrics as 1 cell cannot be considered as a map
     */
-    public boolean isOutOfRange(GridMap map){
+    public boolean isValidRange(GridMap map){
         if (map.getGridCells().length == 0) {
             return true;
         }
         int rows = map.getGridCells().length;
         int cols = map.getGridCells()[0].length;
-        if(rows<2 && cols <2){
-            return true;
-        }
-
-        return false;
+        return rows >= 2 && cols >= 2;
     }
+
+    public boolean createFloorToExplore(GridMap gridMap){
+        if(isValidRange(gridMap)){
+            if(isValidFloorMap(gridMap)){
+                setFloorToExplore(gridMap);
+            }else {
+                return false;
+            }
+        }else{
+            return false;
+        }
+        return true;
+    }
+
 }
