@@ -1,6 +1,7 @@
 package com.marine.marinewalk.probe.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 /*
 Grid represents ocean floor in 2 X 2 matrics
@@ -21,6 +22,13 @@ public class GridMap implements Serializable {
 
     public void setGridCells(GridCell[][] gridCells) {
         this.gridCells = gridCells;
+    }
+
+    @Override
+    public String toString() {
+        return "GridMap{" +
+                "gridCells=" + Arrays.toString(gridCells) +
+                '}';
     }
 
     public GridCell[][] createMap(Boolean[][] map){
