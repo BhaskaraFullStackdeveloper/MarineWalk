@@ -13,7 +13,7 @@ class ProbeControllerModuleTest {
 
     //place a probe on grid
     @Test
-    public void placeProbeOnGrid_ShouldBeSuccessful(){
+	public void placeProbeOnGrid_ShouldBeSuccessful(){
         GridMap gridMap=new GridMap();
         Probe probe=new Probe(new GridCell(1,1,false),new GridCell(0,1,false));
 
@@ -45,12 +45,32 @@ class ProbeControllerModuleTest {
     @Test
     public void checkProbeDirection_withObstacle_shouldSayHasObstacle(){
 
-        Assertions.assertTrue(false);
+        GridMap gridMap=new GridMap();
+        Probe probe=new Probe(new GridCell(1,1,false),new GridCell(0,1,false));
+
+        Boolean[][] map={{false,true,false},{false,false,false},{false,false,false}};
+        GridCell[][] floorToExplore = gridMap.createMap(map);
+        OceanFloor oceanFloor=new OceanFloor(new GridMap(floorToExplore));
+        ProbeControllerModule controllerModule=new ProbeControllerModule(oceanFloor);
+        boolean placedProbeOnGrid = controllerModule.placeProbeOnGrid(probe);
+        boolean movedForward = controllerModule.moveForward();
+        
+        Assertions.assertTrue(placedProbeOnGrid);
+        Assertions.assertTrue(movedForward);
     }
     //check probe facing is clear
     @Test
     public void checkProbeDirection_withoutObstacle_shouldSayClear(){
 
+        GridMap gridMap=new GridMap();
+        Probe probe=new Probe(new GridCell(2,1,false),new GridCell(1,3,false));
+
+        Boolean[][] map={{false,false},{false,false},{false,false}};
+        GridCell[][] floorToExplore = gridMap.createMap(map);
+        OceanFloor oceanFloor=new OceanFloor(new GridMap(floorToExplore));
+        ProbeControllerModule controllerModule=new ProbeControllerModule(oceanFloor);
+        boolean placedProbeOnGrid = controllerModule.placeProbeOnGrid(probe);
+        
         Assertions.assertFalse(true);
     }
     //move probe forward

@@ -8,65 +8,82 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProbeControllerModule {
 
-    private OceanFloor oceanFloor;
-    private Probe probe;
+	private OceanFloor oceanFloor;
+	private Probe probe;
 
-    public ProbeControllerModule(OceanFloor floorMap) {
-        this.oceanFloor = floorMap;
-    }
+	public ProbeControllerModule(OceanFloor floorMap) {
+		this.oceanFloor = floorMap;
+	}
 
-    public OceanFloor getOceanFloor() {
-        return oceanFloor;
-    }
+	public OceanFloor getOceanFloor() {
+		return oceanFloor;
+	}
 
-    public void setOceanFloor(OceanFloor oceanFloor) {
-        this.oceanFloor = oceanFloor;
-    }
+	public void setOceanFloor(OceanFloor oceanFloor) {
+		this.oceanFloor = oceanFloor;
+	}
 
-    public Probe getProbe() {
-        return probe;
-    }
+	public Probe getProbe() {
+		return probe;
+	}
 
-    public void setProbe(Probe probe) {
-        this.probe = probe;
-    }
+	public void setProbe(Probe probe) {
+		this.probe = probe;
+	}
 
-    //should be able to control the probe
-    //change position of the probe  - with area boundaries validation
-    //change direction of the probe - with validation and tell if out of range direction or in range
-    //starting position
-    public boolean placeProbeOnGrid(Probe probe){
-        GridCell startingPosition = probe.getPosition();
-        GridCell faceDirection = probe.getFacingTowards();
-        if(this.oceanFloor.getFloorToExplore().getGridCells()[startingPosition.getX()][startingPosition.getY()].getHasObstacle()){
-            return false;
-        }
-        if (isGridCellInValidRange(startingPosition) && isGridCellInValidRange(faceDirection)) {
-            this.probe=probe;
-        }else{
-            return false;
-        }
+	// should be able to control the probe
+	// change position of the probe - with area boundaries validation
+	// change direction of the probe - with validation and tell if out of range
+	// direction or in range
+	// starting position
+	public boolean placeProbeOnGrid(Probe probe) {
+		GridCell startingPosition = probe.getPosition();
+		GridCell faceDirection = probe.getFacingTowards();
+		if (this.oceanFloor.getFloorToExplore().getGridCells()[startingPosition.getX()][startingPosition.getY()]
+				.getHasObstacle()) {
+			return false;
+		}
+		if (isGridCellInValidRange(startingPosition) && isGridCellInValidRange(faceDirection)) {
+			this.probe = probe;
+		} else {
+			return false;
+		}
 
+		return true;
+	}
 
-        return true;
-    }
+	private boolean isGridCellInValidRange(GridCell startingPosition) {
+		return startingPosition.getY() >= 0
+				&& startingPosition.getX() < this.oceanFloor.getFloorToExplore().getGridCells().length
+				&& startingPosition.getY() >= 0
+				&& startingPosition.getY() < this.oceanFloor.getFloorToExplore().getGridCells()[0].length;
+	}
 
-    private boolean isGridCellInValidRange(GridCell startingPosition) {
-        return startingPosition.getY() >= 0 &&
-                startingPosition.getX() < this.oceanFloor.getFloorToExplore().getGridCells().length &&
-                startingPosition.getY() >= 0 && startingPosition.getY() < this.oceanFloor.getFloorToExplore().getGridCells()[0].length;
-    }
+	// move forward
+	public boolean moveForward() {
 
-    //move forward
-    public boolean moveForward(){
+		GridCell currentPosition = probe.getPosition();
+		GridCell facing = probe.getFacingTowards();
+		int newX = currentPosition.getX() + facing.getX();
+		int newY = currentPosition.getY() + facing.getY();
+		if (isValidMove(newX, newY)) {
+			probe.move(new GridCell(newX, newY, false));
+			return true;
+		}
 
-        return false;
-    }
-    //move backword
-    //move left
-    //move right
-    //check hasObstacle
-    //get collection of commands -read - move the probe accordingly
-    //printSummary
+		return false;
+	}
+	// move backword
+	// move left
+	// move right
+	// check hasObstacle
+	// get collection of commands -read - move the probe accordingly
+	// printSummary
+
+	private boolean isValidMove(int x, int y) {
+		return x >= 0 && x < oceanFloor.getFloorToExplore().getGridCells().length && y >= 0
+				&& y < oceanFloor.getFloorToExplore().getGridCells()[0].length
+				&& !oceanFloor.getFloorToExplore().getGridCells()[x][y].getHasObstacle();
+	}
 
 }
