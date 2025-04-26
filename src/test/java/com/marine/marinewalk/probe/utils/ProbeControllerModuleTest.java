@@ -13,7 +13,6 @@ import java.util.List;
 
 class ProbeControllerModuleTest {
 
-    //place a probe on grid
     @Test
 	public void placeProbeOnGrid_ShouldBeSuccessful(){
         GridMap gridMap=new GridMap();
@@ -28,7 +27,7 @@ class ProbeControllerModuleTest {
 
         Assertions.assertTrue(placedProbeOnGrid);
     }
-    //place probe on invalid grid location
+
     @Test
     public void placeProbeOnGrid_WithInvalidRange_shouldBeInvalid(){
 
@@ -43,7 +42,7 @@ class ProbeControllerModuleTest {
         
         Assertions.assertFalse(placedProbeOnGrid);
     }
-    //check probe facing obstacle?
+
     @Test
     public void checkProbeDirection_withObstacle_shouldSayHasObstacle(){
 
@@ -60,7 +59,7 @@ class ProbeControllerModuleTest {
         Assertions.assertTrue(placedProbeOnGrid);
         Assertions.assertFalse(movedForward);
     }
-    //check probe facing is clear
+
     @Test
     public void checkProbeDirection_withoutObstacle_shouldSayClear(){
 
@@ -78,7 +77,7 @@ class ProbeControllerModuleTest {
         Assertions.assertTrue(movedForward);
         
     }
-    //move probe forward
+
     @Test
     public void moveForward_WithValidInput_ShouldMoveOneGridForward(){
     	
@@ -98,7 +97,7 @@ class ProbeControllerModuleTest {
         Assertions.assertEquals(0,controllerModule.getProbe().getPosition().getX(),"Moved to x position");
         Assertions.assertEquals(1,controllerModule.getProbe().getPosition().getY(),"Moved to y position");
     }
-    //move probe forward when there is obstacle
+
     @Test
     public void moveForward_WithObstacle_ShouldSayHasObstacle(){
 
@@ -118,7 +117,7 @@ class ProbeControllerModuleTest {
         Assertions.assertEquals(1,controllerModule.getProbe().getPosition().getX(),"stay in same position");
         Assertions.assertEquals(1,controllerModule.getProbe().getPosition().getY(),"stay in same position");
     }
-    //move probe forward out of bounds
+
     @Test
     public void moveForward_WithInValidInput_ShouldSayOutOfBounds(){
     	
@@ -136,7 +135,7 @@ class ProbeControllerModuleTest {
 
     }
 
-    //move probe backward
+
     @Test
     public void moveBackward_WithValidInput_ShouldMoveOneGridBackward(){
     	GridMap gridMap=new GridMap();
@@ -155,7 +154,7 @@ class ProbeControllerModuleTest {
         Assertions.assertEquals(2,controllerModule.getProbe().getPosition().getX(),"Moved back to x position");
         Assertions.assertEquals(1,controllerModule.getProbe().getPosition().getY(),"Moved back to y position");
     }
-    //move probe backward when there is obstacle
+
     @Test
     public void moveBackward_WithObstacle_ShouldSayHasObstacle(){
 
@@ -175,7 +174,7 @@ class ProbeControllerModuleTest {
          Assertions.assertEquals(1,controllerModule.getProbe().getPosition().getX(),"stay in same position");
          Assertions.assertEquals(1,controllerModule.getProbe().getPosition().getY(),"stay in same position");
     }
-    //move probe backward out of bounds
+
     @Test
     public void moveBackward_WithInValidInput_ShouldSayOutOfBounds(){
 
@@ -191,7 +190,6 @@ class ProbeControllerModuleTest {
         assertThrows(NullPointerException.class, ()->controllerModule.moveBackward(), "Probe should not move backward beyond grid boundaries.");
     }
 
-    //move probe left
     @Test
     public void moveLeft_WithValidInput_ShouldMoveOneGridLeft(){
 
@@ -212,7 +210,7 @@ class ProbeControllerModuleTest {
         Assertions.assertEquals(0,controllerModule.getProbe().getPosition().getY(),"Moved left to y position");
 
     }
-    //move probe left when there is obstacle
+
     @Test
     public void moveLeft_WithObstacle_ShouldSayHasObstacle(){
     	 GridMap gridMap=new GridMap();
@@ -231,7 +229,7 @@ class ProbeControllerModuleTest {
          Assertions.assertEquals(1,controllerModule.getProbe().getPosition().getX(),"stay in same position");
          Assertions.assertEquals(1,controllerModule.getProbe().getPosition().getY(),"stay in same position");
     }
-    //move probe left out of bounds
+
     @Test
     public void moveLeft_WithInValidInput_ShouldSayOutOfBounds(){
     	GridMap gridMap=new GridMap();
@@ -246,7 +244,7 @@ class ProbeControllerModuleTest {
         assertThrows(NullPointerException.class, ()->controllerModule.moveBackward(), "Probe should not move backward beyond grid boundaries.");
     }
 
-    //move probe right
+
     @Test
     public void moveRight_WithValidInput_ShouldMoveOneGridRight(){
     	GridMap gridMap=new GridMap();
@@ -266,7 +264,7 @@ class ProbeControllerModuleTest {
         Assertions.assertEquals(2,controllerModule.getProbe().getPosition().getY(),"Moved right to y position");
     }
     
-    //move probe right when there is obstacle
+
     @Test
     public void moveRight_WithObstacle_ShouldSayHasObstacle(){
     	 GridMap gridMap=new GridMap();
@@ -285,7 +283,7 @@ class ProbeControllerModuleTest {
          Assertions.assertEquals(1,controllerModule.getProbe().getPosition().getX(),"stay in same position");
          Assertions.assertEquals(1,controllerModule.getProbe().getPosition().getY(),"stay in same position");
     }
-    //move probe right out of bounds
+
     @Test
     public void moveRight_WithInValidInput_ShouldSayOutOfBounds(){
     	GridMap gridMap=new GridMap();
@@ -300,7 +298,6 @@ class ProbeControllerModuleTest {
         assertThrows(NullPointerException.class, ()->controllerModule.moveBackward(), "Probe should not move backward beyond grid boundaries.");
     }
 
-    //get moving commands
     @Test
     public void testExecuteCommands_SimpleMovement() {
     	GridMap gridMap=new GridMap();
@@ -314,17 +311,16 @@ class ProbeControllerModuleTest {
         assertTrue(controller.placeProbeOnGrid(probe), "Probe should be placed successfully.");
         
         List<Character> commands = List.of('F', 'R', 'F');
-        //TODO:controller.executeCommands(commands)
-        assertTrue(false, "Probe should execute commands.");
+        assertTrue(controller.executeCommands(commands), "Probe should execute commands.");
         
-        assertEquals(new GridCell(2, 2, false), controller.getProbe().getPosition(), "Probe should end at correct position.");
+        assertEquals(new GridCell(2, 0, false), controller.getProbe().getPosition(), "Probe should end at correct position.");
     }
 
     @Test
     public void testExecuteCommands_WithObstacle() {
     	GridMap gridMap=new GridMap();
     	
-    	Boolean[][] map = {{false, false, false}, {false, false, false}, {false, false, false}};
+    	Boolean[][] map = {{false, false, false}, {false, false, true}, {false, false, false}};
         GridCell[][] floorToExplore = gridMap.createMap(map);
         OceanFloor oceanFloor=new OceanFloor(new GridMap(floorToExplore));
         ProbeControllerModule controller = new ProbeControllerModule(oceanFloor);
@@ -333,10 +329,9 @@ class ProbeControllerModuleTest {
         assertTrue(controller.placeProbeOnGrid(probe), "Probe should be placed successfully.");
         
         List<Character> commands = List.of('F', 'F');  // Second move forward should be blocked
-        //TODO:controller.executeCommands(commands)
-        assertFalse(true, "Probe should stop before the obstacle.");
+        assertTrue(controller.executeCommands(commands), "Probe should stop before the obstacle.");
         
-        assertEquals(new GridCell(1, 0, false), controller.getProbe().getPosition(), "Probe should remain in original position.");
+        assertEquals(new GridCell(1, 1, false), controller.getProbe().getPosition(), "Probe should remain in original position.");
     }
 
     @Test
@@ -351,13 +346,12 @@ class ProbeControllerModuleTest {
 
         assertTrue(controller.placeProbeOnGrid(probe), "Probe should be placed successfully.");
         
-        List<Character> commands = List.of('L', 'L', 'F');  // Turning left twice should face opposite direction
-        //TODO: controller.executeCommands(commands)
-        assertTrue(false, "Probe should execute rotation correctly.");
+        List<Character> commands = List.of('L', 'F', 'R','B');
+       
+        assertTrue(controller.executeCommands(commands), "Probe should execute correctly.Face in same direction again");
         
-        assertEquals(new GridCell(1, 0, false), controller.getProbe().getPosition(), "Probe should move backward after rotating.");
+        assertEquals(new GridCell(1, 1, false), controller.getProbe().getPosition(), "Probe should move backward after rotating.");
     }
-    //collect cells visited
 
 
 }
