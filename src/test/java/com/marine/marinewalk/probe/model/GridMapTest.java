@@ -29,11 +29,7 @@ class GridMapTest {
         }
         //Create Map
         Boolean[][] defaultMap = map.createMap(coordinates);
-        for (int i = 0; i < defaultMap.length; i++) {
-            for (int j = 0; j < defaultMap[0].length; j++) {
-                System.out.println("i: "+i+" j: "+j+" = "+defaultMap[i][j]);
-            }
-        }
+
         //test if we are getting same map that we have created from create map output
         for (int i = 0; i < coordinates.length; i++) {
             for (int j = 0; j < coordinates[0].length; j++) {
@@ -44,5 +40,12 @@ class GridMapTest {
             }
         }
 
+    }
+
+    @Test
+    public void createMap_shouldReturnGridForGivenCoordinates(){
+        GridMap map=new GridMap();
+        Boolean[][] coordinates = map.createMap(new Boolean[3][3]);
+        Assertions.assertInstanceOf(GridMap.class,coordinates);
     }
 }
