@@ -1,5 +1,9 @@
 package com.marine.marinewalk.probe.utils;
 
+import com.marine.marinewalk.probe.model.GridCell;
+import com.marine.marinewalk.probe.model.GridMap;
+import com.marine.marinewalk.probe.model.OceanFloor;
+import com.marine.marinewalk.probe.model.Probe;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -10,14 +14,32 @@ class ProbeControllerModuleTest {
     //place a probe on grid
     @Test
     public void placeProbeOnGrid_ShouldBeSuccessful(){
+        GridMap gridMap=new GridMap();
+        Probe probe=new Probe(new GridCell(1,1,false),new GridCell(0,1,false));
 
-        Assertions.assertTrue(false);
+        Boolean[][] map={{false,false},{false,false},{false,false}};
+        GridCell[][] floorToExplore = gridMap.createMap(map);
+        OceanFloor oceanFloor=new OceanFloor(new GridMap(floorToExplore));
+        ProbeControllerModule controllerModule=new ProbeControllerModule(oceanFloor);
+        boolean placedProbeOnGrid = controllerModule.placeProbeOnGrid(probe);
+
+
+        Assertions.assertTrue(placedProbeOnGrid);
     }
     //place probe on invalid grid location
     @Test
     public void placeProbeOnGrid_WithInvalidRange_shouldBeInvalid(){
 
-        Assertions.assertFalse(true);
+        GridMap gridMap=new GridMap();
+        Probe probe=new Probe(new GridCell(2,1,false),new GridCell(1,3,false));
+
+        Boolean[][] map={{false,false},{false,false},{false,false}};
+        GridCell[][] floorToExplore = gridMap.createMap(map);
+        OceanFloor oceanFloor=new OceanFloor(new GridMap(floorToExplore));
+        ProbeControllerModule controllerModule=new ProbeControllerModule(oceanFloor);
+        boolean placedProbeOnGrid = controllerModule.placeProbeOnGrid(probe);
+
+        Assertions.assertFalse(placedProbeOnGrid);
     }
     //check probe facing obstacle?
     @Test
